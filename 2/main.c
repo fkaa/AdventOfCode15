@@ -27,7 +27,7 @@ static __inline void sort3(int *arr)
 int main()
 {
     int c[3];
-    int total = 0;
+    int total = 0, ribbon = 0;
 
     char buf[BUF_LEN];
     while (fgets(buf, BUF_LEN, stdin) && sscanf(buf, "%dx%dx%d\n", c, c + 1, c + 2)) {
@@ -46,8 +46,15 @@ int main()
                + (2 * h * l)
                /* the slack side */
                + (c[0] * c[1]);
+
+        /* around the short sides */
+        ribbon += (2 * c[0])
+                + (2 * c[1])
+                /* the volume of the cube */
+                + (l * w * h);
     }
 
     printf("The elves need %d sq ft of wrapping paper!\n", total);
+    printf("The elves need %d ft of ribbon!\n", ribbon);
     return 0;
 }
