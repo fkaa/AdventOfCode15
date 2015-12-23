@@ -57,31 +57,36 @@ void map_put(struct map_t *self, struct coord_t pos)
 int main()
 {
     struct map_t map = map_create(512);
-    struct coord_t pos = {0};
+    struct coord_t santa = {0};
+    struct coord_t robo_santa = {0};
+    struct coord_t *pos = NULL;
+
+    int santa_turn = 0;
     char c;
 
     while ((c = fgetc(stdin)) != EOF) {
+        pos = santa_turn++ & 1 ? &santa : &robo_santa;
+        map_put(&map, *pos);
+
         switch (c) {
             case '<':
-                pos.x--;
+                pos->x--;
                 break;
             case 'v':
-                pos.y--;
+                pos->y--;
                 break;
             case '>':
-                pos.x++;
+                pos->x++;
                 break;
             case '^':
-                pos.y++;
+                pos->y++;
                 break;
             default:
                 break;
         }
-
-        map_put(&map, pos);
     }
 
-    printf("Santa has delivered presents to %d households\n", map.len);
+    printf("Santa & Robo-santa has delivered presents to %d households\n", map.len);
 
     map_free(&map);
     return 0;
